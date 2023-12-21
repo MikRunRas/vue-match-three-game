@@ -26,10 +26,11 @@
 </style>
 
 <script lang="ts">
+import App from '@/App.vue';
 import userViewModel from '@/viewmodels/UserViewModel';
 import { Options } from 'vue-class-component';
 export default {
-  @Options({})
+  // @Options({})
   // Properties returned from data() become reactive state
   // and will be exposed on `this`.
   data () {

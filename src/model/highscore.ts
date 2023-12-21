@@ -2,7 +2,7 @@ export default class Highscore {
     user: number;
     id: number;
     score: number;
-    completed: boolean | null;
+    completed: boolean;
   
     constructor(user: number, id: number, score: number, completed: boolean) {
       this.user = user;
