@@ -33,11 +33,8 @@ export default {
     }
   },
 
+  // Called upon Component Initialisation
   beforeUpdate() {
-    // Called upon Component Initialisation
-    console.log('All Highscores');
-    console.log(this.highscoreData.length)
-
     // Get User ID through Session Storage
     const userId = sessionStorage.getItem('userId')
 
@@ -46,11 +43,6 @@ export default {
       .filter((score: Highscore) => Number(score.user) === Number(userId))
       // .sort((a: Highscore, b: Highscore) => b.score > a.score) // Extra sort if necessary
       .slice(0, 3);
-
-
-    console.log(`User (${userId}) Top Scores`);
-    console.log(this.userTopScoresData.length);
-    
   }
 };
 </script>

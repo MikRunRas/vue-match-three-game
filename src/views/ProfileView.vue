@@ -20,17 +20,16 @@ import User from '@/model/user';
       userData: {} as User
     }
   },
+
   components: {
     MenuComponent: MenuComponent,
     ProfileComponent: ProfileComponent
   },
+
   methods: {
     async initProfilePage() {
       // Retrieve the User Data through the UserViewModel
       const tempUserData: User = await userViewModel.getUserData();
-
-      // console.log('ProfileView > initProfilePage()');
-      // console.log(tempUserData)
 
       // Set the User Data
       let user: User = new User(tempUserData.username, tempUserData.password, tempUserData.id, tempUserData.admin)
@@ -49,14 +48,12 @@ import User from '@/model/user';
       });
 
       // Handle the Response
-      // Not a good handling tho...
-      if (response.ok) {
-        console.log('Password has been Updated');
-        console.log(this.userData);
-      } else {
-        console.log('Password was not updated');
-      }
+      const infoMessage = response.ok
+        ? 'Password has been Updated'
+        : 'Error when updating Password'
 
+      // Inform the User of the outcome
+      alert(infoMessage)
     }
   },
   created() {
