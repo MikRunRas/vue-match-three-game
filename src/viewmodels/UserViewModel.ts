@@ -31,7 +31,7 @@ const userViewModel = {
       const userData = await this.getUserData();
       sessionStorage.setItem("userName", userData.username);
 
-      const user: User = new User(userData.username, "", userId);
+      const user: User = new User(userData.username, userData.password, userId);
 
       return user;
     } catch (error) {

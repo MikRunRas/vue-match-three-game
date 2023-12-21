@@ -55,14 +55,14 @@ export default {
     },
     async handleLogin() {
       const userFound = await userViewModel.handleLogin(this.username, this.password);
-      
+
       // Check if the login was successful and if a user object is returned
       if (userFound) {
         sessionStorage.setItem("isLoggedIn", "true")
-        sessionStorage.setItem("loggedInUserName", userFound.user.username)
-        sessionStorage.setItem("loggedInUserId", userFound.user.id.toString())
+        sessionStorage.setItem("loggedInUserName", userFound.username)
+        sessionStorage.setItem("loggedInUserId", userFound.id.toString())
         this.isLoggedIn = true;
-        
+
         // Push the route to the user profile page with the user ID as a parameter
         this.$router.push("/profile");
       } else {
