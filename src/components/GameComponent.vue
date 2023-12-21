@@ -25,7 +25,7 @@ export default {
             // Get the Board
             let board = this.$refs.gameboard as HTMLDivElement;
 
-
+            // testing of stuff
             this.items = [['a', 'b', 'c', 'd', 'e'], ['a', 'b', 'c', 'd', 'e'], ['a', 'b', 'c', 'd', 'e'], ['a', 'b', 'c', 'd', 'e'], ['a', 'b', 'c', 'd', 'e']]
 
             // Set the Board
