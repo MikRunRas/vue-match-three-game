@@ -19,24 +19,21 @@ const userViewModel = {
   async handleLogin(
     username: string,
     password: string
-  ): Promise<{ user: User }> {
+  ): Promise<User> {
     try {
       const { token, userId } = await this.loginRequest(username, password);
       sessionStorage.setItem("token", token);
 
+      // Cache for Session
       sessionStorage.setItem("userId", userId.toString());
 
+      //
       const userData = await this.getUserData();
       sessionStorage.setItem("userName", userData.username);
 
-      const user: User = {
-        username: userData.username,
-        password: null,
-        id: userId,
-        admin: null,
-      };
+      const user: User = new User(userData.username, "", userId);
 
-      return { user };
+      return user;
     } catch (error) {
       console.error("Error fetching:", error);
       // You might want to handle or propagate the error here
@@ -106,8 +103,6 @@ const userViewModel = {
 
     // Return the User
     const user = await userResponse.json();
-    console.log('UserViewModel > getUserData()');
-    console.log(user);
     return user;
   },
 

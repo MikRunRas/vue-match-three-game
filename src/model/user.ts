@@ -1,10 +1,11 @@
 export default class User {
-    username: string;
-    password: string | null;
     id: number;
-    admin: boolean | null;
+    username: string;
+    password: string;
+    
+    admin: boolean;
   
-    constructor(username: string, password: string | null, id: number, admin: boolean | null) {
+    constructor(username: string, password: string, id: number, admin: boolean = false) {
       this.username = username;
       this.password = password;
       this.id = id;
