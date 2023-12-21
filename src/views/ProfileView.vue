@@ -10,7 +10,7 @@
 import { Options, Vue } from 'vue-class-component'
 import MenuComponent from '@/components/MenuComponent.vue';
 import ProfileComponent from '@/components/ProfileComponent.vue';
-import userViewModel from '@/viewmodels/UserViewModel';
+import { userViewModel } from '@/viewmodels/UserViewModel';
 import User from '@/model/user';
 
 
@@ -26,8 +26,13 @@ import User from '@/model/user';
   },
   methods: {
     async initProfilePage() {
-      const tempUserData = await userViewModel.getUserData(); // { username: string, password: string }
-      console.log("TEMP: ", tempUserData)
+      // Retrieve the User Data through the UserViewModel
+      const tempUserData: User = await userViewModel.getUserData();
+
+      // console.log('ProfileView > initProfilePage()');
+      // console.log(tempUserData)
+
+      // Set the User Data
       let user: User = new User(tempUserData.username, tempUserData.password, tempUserData.id, tempUserData.admin)
       this.userData = user
     },
@@ -44,13 +49,14 @@ import User from '@/model/user';
       });
 
       // Handle the Response
+      // Not a good handling tho...
       if (response.ok) {
         console.log('Password has been Updated');
         console.log(this.userData);
       } else {
         console.log('Password was not updated');
-
       }
+
     }
   },
   created() {
