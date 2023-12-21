@@ -1,41 +1,64 @@
 <template>
-    <div class="profile">
-      <MenuComponent></MenuComponent>
-      <ProfileComponent :userData="userData" ></ProfileComponent>
-    </div>
-  </template>
+  <div class="profile">
+    <MenuComponent></MenuComponent>
+    <ProfileComponent :userData="userData"></ProfileComponent>
+  </div>
+  <button @click="updatePassword">Update Password</button>
+</template>
   
-  <script lang="ts">
-  import { Options, Vue } from 'vue-class-component'
-  import MenuComponent from '@/components/MenuComponent.vue';
-  import ProfileComponent from '@/components/ProfileComponent.vue';
-  import userViewModel from '@/viewmodels/UserViewModel';
-  import User from '@/model/user';
+<script lang="ts">
+import { Options, Vue } from 'vue-class-component'
+import MenuComponent from '@/components/MenuComponent.vue';
+import ProfileComponent from '@/components/ProfileComponent.vue';
+import userViewModel from '@/viewmodels/UserViewModel';
+import User from '@/model/user';
 
-  
-  @Options({
-  data () {
-    return{
-        userData: {} as User
+
+@Options({
+  data() {
+    return {
+      userData: {} as User
     }
   },
-    components: {
-      MenuComponent,
-      ProfileComponent
+  components: {
+    MenuComponent: MenuComponent,
+    ProfileComponent: ProfileComponent
+  },
+  methods: {
+    async initProfilePage() {
+      const tempUserData = await userViewModel.getUserData(); // { username: string, password: string }
+      console.log("TEMP: ", tempUserData)
+      let user: User = new User(tempUserData.username, tempUserData.password, tempUserData.id, tempUserData.admin)
+      this.userData = user
     },
-    methods:{
-        async initProfilePage(){
-            const tempUserData =  await userViewModel.getUserData();
-            console.log("TEMP: ", tempUserData)
-            this.userData = new User(tempUserData.username, tempUserData.password, tempUserData.id, tempUserData.admin)
-        }
-    },
-    created(){
-        this.initProfilePage()
+
+    async updatePassword() {
+      // What is this token?
+      const token = sessionStorage.getItem('token')
+
+      // What is the Response exactly? anonisnap: new user?
+      const response = await fetch(`http://localhost:9090/users/${this.userData.id}?token=${token}`, {
+        method: 'PATCH',                                      // HTTPS Operation
+        headers: { 'Content-Type': 'application/json' },      // magic?
+        body: JSON.stringify({ ...this.userData })            // Parse the new User Data into a string
+      });
+
+      // Handle the Response
+      if (response.ok) {
+        console.log('Password has been Updated');
+        console.log(this.userData);
+      } else {
+        console.log('Password was not updated');
+
+      }
     }
-  })
-  export default class ProfileView extends Vue {
+  },
+  created() {
+    this.initProfilePage()
+  }
+})
+export default class ProfileView extends Vue {
   userData!: User;
 }
-  </script>
+</script>
   
