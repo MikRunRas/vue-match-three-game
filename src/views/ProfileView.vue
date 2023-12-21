@@ -43,7 +43,7 @@ import User from '@/model/user';
       // What is the Response exactly? anonisnap: new user?
       const response = await fetch(`http://localhost:9090/users/${this.userData.id}?token=${token}`, {
         method: 'PATCH',                                      // HTTPS Operation
-        headers: { 'Content-Type': 'application/json' },      // magic?
+        headers: { 'Content-Type': 'application/json' },      // magic? Rune says: "We send JSON" cuz blah blah policies blah blah
         body: JSON.stringify({ ...this.userData })            // Parse the new User Data into a string
       });
 
@@ -60,8 +60,11 @@ import User from '@/model/user';
     this.initProfilePage()
   }
 })
+
+// What is happening here?
 export default class ProfileView extends Vue {
   userData!: User;
 }
+
 </script>
   
