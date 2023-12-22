@@ -115,6 +115,21 @@ export default {
             // Return Object
             return { valid: valid, error: error }
         },
+        cloneBoardToUI(this: any) {
+            // Save Board State
+            let state: string[][] = this.board.duplicateBoard()
+
+            // Flatten the Items
+            let loops = state[0].length
+            this.items = []
+
+            // Flatten the Array using the first item in each sub-array as the first few items
+            for (let index = 0; index < loops; index++) {
+                state.forEach(element => {
+                    this.items.push(element.shift())
+                });
+            }
+        },
         fillBoard(this: any) {
             // Creation of the Board
             const pieceSequence = 'abcc';
@@ -132,19 +147,8 @@ export default {
             let generator: Generator<string> = new SequenceGenerator(pieceSequence)
             this.board = new Board<string>(generator, this.columns, this.rows);
 
-            // Save Board State
-            let state: string[][] = this.board.duplicateBoard()
-
-            // Flatten the Items
-            let loops = state[0].length
-            this.items = []
-
-            // Flatten the Array using the first item in each sub-array as the first few items
-            for (let index = 0; index < loops; index++) {
-                state.forEach(element => {
-                    this.items.push(element.shift())
-                });
-            }
+            // Refill the empty board
+            this.cloneBoardToUI()
 
             // Set Started to True
             this.started = true
@@ -155,7 +159,7 @@ export default {
 
             // Check if any item is selected
             if (this.selected.col === -1 || this.selected.row === -1) {
-                console.log('Selecting', position);
+                // console.log('Selecting', position);
 
                 // No Item is selected, so just select the current one
                 this.selected = position
@@ -164,7 +168,7 @@ export default {
 
             // Check if attempting to Unselect
             if (this.selected.col === position.col && this.selected.row === position.row) {
-                console.log('Unselecting', position);
+                // console.log('Unselecting', position);
 
                 // Unselect
                 resetSelected()
@@ -173,8 +177,14 @@ export default {
 
             // Check for a Pair
             if (this.board.canMove(this.selected, position)) {
-                console.log('Legal Swap:', this.selected, position);
-                
+                // console.log('Legal Swap:', this.selected, position);
+
+                // Perform Move
+                this.board.move(this.selected, position)
+
+                // Clone the board
+                this.cloneBoardToUI()
+
                 // Reset Selected
                 resetSelected()
             } else {
