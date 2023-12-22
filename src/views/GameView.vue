@@ -2,7 +2,6 @@
     <div class="game">
       <MenuComponent></MenuComponent>
       <GameComponent></GameComponent>
-      <p>Game</p>
     </div>
   </template>
   
