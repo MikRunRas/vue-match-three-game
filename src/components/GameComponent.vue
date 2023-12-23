@@ -22,7 +22,7 @@
             <tr v-show="rows > 0" v-for="row in rows">
                 <td v-show="columns > 0" v-for="col in columns" class="border square"
                     @click="select({ col: col - 1, row: row - 1 })">
-                    <p class="cell">
+                    <p class="biggerfont">
                         {{ getPiece() }}
 
                         <!-- <br>
@@ -61,6 +61,10 @@
 
 .cell:focus {
     background-color: yellow;
+}
+
+.biggerfont {
+    font-size: 28px;
 }
 
 .square {
@@ -143,7 +147,7 @@ export default {
         },
         fillBoard(this: any) {
             // Creation of the Board
-            const pieceSequence = 'ADBCCD';
+            const pieceSequence = '♥♦♣♠♠♦';
 
             // Alert user if Piece Sequence and Size of Area would cause an issue
             const check = this.checkForSizeErrors_naive(pieceSequence)
@@ -218,7 +222,7 @@ export default {
             let thing = this.items.shift()
             // console.log(thing)
             return thing
-        }
+        },
     },
 }
 </script>
