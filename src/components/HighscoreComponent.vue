@@ -1,13 +1,12 @@
 <template>
   <div>
     <div>
-      <h2>All High Scores</h2>
+      <h2>Top Ten Highscores</h2>
       <ol v-if="highscoreData && highscoreData.length > 0">
         <p v-for="score in highscoreData" :key="score.score">User id:{{ score.user }} Score: {{ score.score }}</p>
       </ol>
 
       <h2>Your top three highscores</h2>
-
       <!-- Show if UserTopScoresData has more than 0 items-->
       <ol v-if="userTopScoresData && userTopScoresData.length > 0">
         <p v-for="score in userTopScoresData" :key="score.score">User id:{{ score.user }} Score: {{ score.score }}</p>

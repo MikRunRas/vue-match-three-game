@@ -6,11 +6,8 @@ const serverUrl = "http://localhost:9090";
 const gameViewModel = {
   async saveHighScore(score: number, id: number): Promise<void> {
     try {
-      console.log("SAVING HIGHSCORE");
       // Retrieve the user ID from the session
       const token = sessionStorage.getItem('token');
-
-      console.log("token: ", token);
 
       const response = await fetch(`${serverUrl}/games/${id}?token=${token}`, {
         method: 'PATCH',
@@ -37,10 +34,6 @@ const gameViewModel = {
       // Retrieve the user ID from the session
       const token = sessionStorage.getItem('token');
       const userId = sessionStorage.getItem('userId');
-
-      console.log("CREATING GAME");
-      console.log("token: ", token);
-      console.log("userid: ", userId);
       
       const response = await fetch(`${serverUrl}/games?token=${token}`, {
         method: 'POST',
@@ -52,8 +45,6 @@ const gameViewModel = {
 
       const responseData = await response.json();
       const gameid = responseData.id
-
-      console.log("GAME CREATED");
 
       if (!response.ok) {
         console.error('Create game failed:', response.status);

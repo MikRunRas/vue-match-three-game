@@ -32,9 +32,9 @@ const highscoreViewModel = {
       const resolvedHighScoresData = await Promise.all(highScoresData);
 
       // Sort the high scores by score
-      resolvedHighScoresData.sort((a, b) => b.score - a.score); // sort((a: Highscore, b: Highscore): number => /* MAGIC */)
+      const sortedAndSliced = resolvedHighScoresData.sort((a, b) => b.score - a.score).slice(0,10);
 
-      return resolvedHighScoresData;
+      return sortedAndSliced;
     } catch (error) {
       console.error("Error fetching highscores:", error);
       // You might want to handle or propagate the error here
