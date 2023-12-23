@@ -22,7 +22,7 @@
             <tr v-show="rows > 0" v-for="row in rows">
                 <td v-show="columns > 0" v-for="col in columns" class="border square"
                     @click="select({ col: col - 1, row: row - 1 })">
-                    <p>
+                    <p class="cell">
                         {{ getPiece() }}
 
                         <!-- <br>
@@ -31,6 +31,10 @@
                 </td>
             </tr>
         </table>
+        <div v-if="this.board">
+        <p>Moves left: {{ movesLeft }}</p>
+        <p>Score: {{ score }}</p>
+    </div>
 
         <!-- <table>
             <tr v-for="col in columns">
@@ -55,6 +59,10 @@
     border-style: solid;
 }
 
+.cell:focus {
+    background-color: yellow;
+}
+
 .square {
     width: 3em;
     height: 3em;
@@ -73,6 +81,7 @@ table {
 <script lang="ts">
 import { Board, Generator, Position } from '@/model/board';
 import { SequenceGenerator } from '@/model/sequenceGenerator'
+import gameViewModel from '../viewmodels/GameViewModel'
 
 export default {
     data() {
@@ -83,6 +92,8 @@ export default {
             rows: 7,
             selected: { col: -1, row: -1 } as Position,
             started: false,
+            score: 0,
+            movesLeft: 0,
         }
     },
     methods: {
@@ -132,7 +143,7 @@ export default {
         },
         fillBoard(this: any) {
             // Creation of the Board
-            const pieceSequence = 'abcc';
+            const pieceSequence = 'ADBCCD';
 
             // Alert user if Piece Sequence and Size of Area would cause an issue
             const check = this.checkForSizeErrors_naive(pieceSequence)
@@ -146,6 +157,8 @@ export default {
             // Generate if board was not a stupid size
             let generator: Generator<string> = new SequenceGenerator(pieceSequence)
             this.board = new Board<string>(generator, this.columns, this.rows);
+            this.movesLeft = this.board.getMoves()
+            this.score = this.board.getScore()
 
             // Refill the empty board
             this.cloneBoardToUI()
@@ -183,7 +196,14 @@ export default {
                 this.board.move(this.selected, position)
 
                 // Clone the board
-                this.cloneBoardToUI()
+                this.cloneBoardToUI()        
+
+                this.score = this.board.getScore()
+                this.movesLeft = this.board.getMoves();
+
+                if(this.movesLeft === 0){
+                    gameViewModel.createGame(this.score)
+                }
 
                 // Reset Selected
                 resetSelected()
